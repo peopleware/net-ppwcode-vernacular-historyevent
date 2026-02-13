@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\common.props"/>
+
+    <ItemGroup>
+        <PackageReference Include="PPWCode.Vernacular.RequestContext.I" />
+        <PackageReference Include="PPWCode.Vernacular.Persistence.V" />
+        <PackageReference Include="PPWCode.Util.Authorization.I" />
+        <PackageReference Include="PPWCode.Util.Time.I" />
+    </ItemGroup>
+
+</Project>

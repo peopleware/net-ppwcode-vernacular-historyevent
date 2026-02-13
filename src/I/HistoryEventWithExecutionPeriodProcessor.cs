@@ -31,8 +31,8 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
     where TReferenceHistory : PeriodHistory<TExecutionPeriod, TExecution>
     where TPermissionHistory : PeriodHistory<TExecutionPeriod, TExecution>
 {
-    private static readonly TExecutionPeriod _infinitiveExecutionPeriod = new () { From = null, To = null };
-    private readonly Stack<TPermissionHistory?> _permissionHistoryStack = new ();
+    private static readonly TExecutionPeriod _infinitiveExecutionPeriod = new() { From = null, To = null };
+    private readonly Stack<TPermissionHistory?> _permissionHistoryStack = new();
     private TPermissionHistory? _permissionHistory;
 
     protected HistoryEventWithExecutionPeriodProcessor(
@@ -70,7 +70,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
         }
 
         // no intersections, no overlaps
-        LinkedList<TSubEvent> list = new (ActualEvents);
+        LinkedList<TSubEvent> list = new(ActualEvents);
         LinkedListNode<TSubEvent>? node = list.First;
         while (node != null)
         {
@@ -151,7 +151,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
 
         // execute change
         TExecutionPeriod newPeriod = historyEvent.ExecutionPeriod!;
-        List<TSubEvent> updatedDenormalizedEvents = new ();
+        List<TSubEvent> updatedDenormalizedEvents = new();
 
         void CreateNewEventOnInterval(TExecutionPeriod p)
         {
@@ -239,7 +239,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
 
         // execute change
         TExecutionPeriod removedPeriod = executionPeriod;
-        List<TSubEvent> updatedDenormalizedEvents = new ();
+        List<TSubEvent> updatedDenormalizedEvents = new();
 
         foreach (TExecutionPeriod period in denormalizedIntervals)
         {
@@ -358,7 +358,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
         TSubEvent? cloneNextAdjacent = null;
         if (sticky)
         {
-            LinkedList<TSubEvent> linkedActualEvents = new (ActualEvents);
+            LinkedList<TSubEvent> linkedActualEvents = new(ActualEvents);
             LinkedListNode<TSubEvent>? current = linkedActualEvents.First;
             while (current != null)
             {
@@ -389,7 +389,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
         if (historyEvent.ExecutionPeriod.CoalesceFrom.CompareTo(newHistoryEvent.ExecutionPeriod!.CoalesceFrom) < 0)
         {
             TExecutionPeriod newExecutionPeriod =
-                new ()
+                new()
                 {
                     From = historyEvent.ExecutionPeriod.From,
                     To = newHistoryEvent.ExecutionPeriod.From
@@ -414,7 +414,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
         if (newHistoryEvent.ExecutionPeriod.CoalesceTo.CompareTo(historyEvent.ExecutionPeriod.CoalesceTo) < 0)
         {
             TExecutionPeriod newExecutionPeriod =
-                new ()
+                new()
                 {
                     From = newHistoryEvent.ExecutionPeriod.To,
                     To = historyEvent.ExecutionPeriod.To
@@ -505,7 +505,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
     protected TSubEvent CloneEvent(TSubEvent @event)
     {
         TSubEvent clone =
-            new ()
+            new()
             {
                 KnowledgePeriod = new TKnowledgePeriod { From = TransactionTime, To = null }
             };
@@ -536,7 +536,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
     private List<TExecutionPeriod> CalculateDenormalizedIntervals(TExecution? from, TExecution? to)
     {
         // calculate different dates
-        TExecutionPeriod executionPeriod = new () { From = from, To = to };
+        TExecutionPeriod executionPeriod = new() { From = from, To = to };
         IEnumerable<TExecution> dates = [executionPeriod.CoalesceFrom, executionPeriod.CoalesceTo];
         dates = dates.Concat(ActualPeriods.SelectMany(p => new[] { p.CoalesceFrom, p.CoalesceTo }));
 
@@ -559,7 +559,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
         dates = dates.Distinct().OrderBy(dt => dt);
 
         // create intervals
-        List<TExecutionPeriod> intervals = new ();
+        List<TExecutionPeriod> intervals = new();
         dates.Aggregate((x, y) =>
         {
             TExecution? xx = !x.Equals(_infinitiveExecutionPeriod.CoalesceFrom) ? x : null;
@@ -578,7 +578,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
     private List<TSubEvent> BuildDenormalizedEvents(IList<TExecutionPeriod> denormalizedIntervals)
     {
         // run over the denormalized intervals
-        List<TSubEvent> events = new ();
+        List<TSubEvent> events = new();
         foreach (TExecutionPeriod interval in denormalizedIntervals)
         {
             // get original event at date
@@ -607,7 +607,7 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
     private List<TSubEvent> NormalizeEvents(List<TSubEvent> denormalizedEvents)
     {
         TSubEvent? previousEvent = null;
-        List<TSubEvent> events = new ();
+        List<TSubEvent> events = new();
         foreach (TSubEvent @event in denormalizedEvents)
         {
             // check if consecutive & identical
@@ -637,8 +637,8 @@ public abstract class HistoryEventWithExecutionPeriodProcessor<TOwner, TSubEvent
 
     private void Apply(List<TSubEvent> normalizedEvents)
     {
-        LinkedList<TSubEvent> originalEvents = new (ActualEvents);
-        LinkedList<TSubEvent> tobeEvents = new (normalizedEvents);
+        LinkedList<TSubEvent> originalEvents = new(ActualEvents);
+        LinkedList<TSubEvent> tobeEvents = new(normalizedEvents);
 
         LinkedListNode<TSubEvent>? originalNode = originalEvents.First;
         LinkedListNode<TSubEvent>? tobeNode = tobeEvents.First;
