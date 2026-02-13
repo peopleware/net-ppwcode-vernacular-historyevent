@@ -7,7 +7,7 @@ This library is supported on .NET SDK versions that are currently supported by M
 
 == Development
 
-Development of the PPWCode is done on https://github.com/peopleware/net-ppwcode-vernacular-historyeven t/tree/I/next[GitHub].
+Development of the PPWCode is done on https://github.com/peopleware/net-ppwcode-vernacular-historyevent/tree/I/next[GitHub].
 
 Releases (both stable and pre-release) are published on https://www.nuget.org/packages/PPWCode.Vernacular.HistoryEvent.I/[NuGet] by https://www.nuget.org/profiles/PeopleWare[PeopleWare].
 
