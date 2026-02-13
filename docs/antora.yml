@@ -1,0 +1,5 @@
+name: ppwcode-vernacular-historyevent-i
+version: ~
+title: PPWCode.Vernacular.HistoryEvent.I
+nav:
+  - modules/ROOT/nav.adoc
